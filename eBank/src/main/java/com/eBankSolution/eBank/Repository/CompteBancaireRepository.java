@@ -1,4 +1,7 @@
 package com.eBankSolution.eBank.Repository;
 
-public interface CompteBancaireRepository {
+import com.eBankSolution.eBank.models.CompteBancaire;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CompteBancaireRepository extends JpaRepository<CompteBancaire,Integer> {
 }

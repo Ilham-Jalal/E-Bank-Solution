@@ -6,6 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.lang.reflect.Type;
 import java.util.Date;
+import com.eBankSolution.eBank.Enum.*;
+import java.util.List;
+import java.util.Set;
 
 
 @NoArgsConstructor
@@ -14,7 +17,6 @@ import java.util.Date;
 @Setter
 @Builder
 @Entity
-@Table(name = "Transaction")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +30,16 @@ public class Transaction {
     private String description;
     @Column
     private String banque;
+    @Enumerated(EnumType.STRING)
+    @Column(name="type" , nullable = false,length = 225)
+    private TypeT type;
+
+    @ManyToOne
+    @JoinColumn(name ="compteId")
+    private CompteBancaire compteB;
+    @ManyToOne
+    @JoinColumn(name = "beneficiaireId")
+    private Beneficiaire beneficiaire;
+//    @ManyToMany
+//    private List<User> users;
 }

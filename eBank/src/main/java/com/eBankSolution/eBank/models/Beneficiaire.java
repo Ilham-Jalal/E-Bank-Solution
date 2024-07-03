@@ -3,6 +3,8 @@ package com.eBankSolution.eBank.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,7 +12,6 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "Beneficiaire")
 public class Beneficiaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +22,10 @@ public class Beneficiaire {
     private Integer numeroCompte;
     @Column
     private String banque;
+    @ManyToOne
+    @JoinColumn(name="compteId")
+    private CompteBancaire compteB;
+    @OneToMany(mappedBy = "beneficiaire")
+    private List<Transaction> transaction;
 }
+

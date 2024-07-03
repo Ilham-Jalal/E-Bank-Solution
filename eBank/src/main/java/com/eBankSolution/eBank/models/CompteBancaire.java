@@ -5,6 +5,9 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -13,7 +16,6 @@ import java.sql.Date;
 @Setter
 @Builder
 @Entity
-@Table(name = "CompteBancaire")
 public class CompteBancaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +25,17 @@ public class CompteBancaire {
     @Column
     private Double solde;
     @Column
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date dateCreation;
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
+    private LocalDateTime dateCreation;
     @Column
     private Integer numeroCompte;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+    @OneToMany(mappedBy = "compteB")
+    private List<Beneficiaire> beneficiaire;
+    @OneToMany(mappedBy = "compteB")
+    private List<carteBancaire> carteBancaire;
+    @OneToMany(mappedBy = "compteB" )
+    private List<Transaction> Transaction ;
 }

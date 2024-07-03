@@ -1,4 +1,7 @@
 package com.eBankSolution.eBank.Repository;
 
-public interface BeneficiaireRepository {
+import com.eBankSolution.eBank.models.Beneficiaire;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BeneficiaireRepository extends JpaRepository<Beneficiaire,Integer> {
 }

@@ -1,5 +1,6 @@
 package com.eBankSolution.eBank.models;
 
+import com.eBankSolution.eBank.Enum.Status;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +14,6 @@ import java.util.Date;
 @Setter
 @Builder
 @Entity
-@Table(name = "carteBancaire")
 public class carteBancaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +25,11 @@ public class carteBancaire {
     private Date dateExpiration;
     @Column
     private String type;
+    @ManyToOne
+    @JoinColumn(name= "compteId")
+    private CompteBancaire compteB;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="status", nullable = false, length = 250)
+    private Status status;
 }
