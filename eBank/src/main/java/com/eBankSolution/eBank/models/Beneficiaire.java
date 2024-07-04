@@ -1,5 +1,6 @@
 package com.eBankSolution.eBank.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class Beneficiaire {
     @JoinColumn(name="compteId")
     private CompteBancaire compteB;
     @OneToMany(mappedBy = "beneficiaire")
+    @JsonIgnore
     private List<Transaction> transaction;
 }
 

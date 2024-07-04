@@ -1,6 +1,7 @@
 package com.eBankSolution.eBank.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,8 +26,17 @@ public class User {
     @Column
     private String userEmail;
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<CompteBancaire> compteBancaire;
-//    @ManyToMany
+
+    public User(Integer userId, String userName, String userPrenom, String userEmail) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPrenom = userPrenom;
+        this.userEmail = userEmail;
+    }
+
+    //    @ManyToMany
     //@JoinTable(
 //            joinColumns = @JoinColumn(name = "user_id"),
 //            inverseJoinColumns = @JoinColumn(name = "transaction_id"))
