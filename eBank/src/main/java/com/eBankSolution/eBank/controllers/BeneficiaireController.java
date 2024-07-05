@@ -22,10 +22,9 @@ public class BeneficiaireController {
         return ResponseEntity.ok(Beneficiaires);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{beneficiaireId}")
     public ResponseEntity<Beneficiaire> getBeneficiaireById(@PathVariable Integer beneficiaireId) {
         Beneficiaire beneficiaire=beneficiaireService.getBeneficiaireById(beneficiaireId);
-
         return ResponseEntity.ok(beneficiaire);
     }
     @PostMapping("/save")
@@ -33,9 +32,9 @@ public class BeneficiaireController {
         return beneficiaireService.saveBeneficiaire(beneficiaire);
     }
 
-    @DeleteMapping("/{beneficiaireId}")
-    public void deleteBeneficiere(@PathVariable Integer beneficiaireId) {
-        beneficiaireService.deleteBeneficiaire(beneficiaireId);
+    @DeleteMapping("/{id}")
+    public void deleteBen(@PathVariable Integer id) {
+        beneficiaireService.deleteBeneficiaire(id);
     }
 
     @PutMapping("up/{id}")

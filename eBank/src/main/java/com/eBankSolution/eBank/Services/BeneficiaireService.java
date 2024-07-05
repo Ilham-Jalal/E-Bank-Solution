@@ -22,14 +22,10 @@ public class BeneficiaireService {
     public Beneficiaire saveBeneficiaire(Beneficiaire beneficiaire){
         return beneficiaireRepository.save(beneficiaire);
     }
-    public void deleteBeneficiaire(Integer benificiereId) {
-        beneficiaireRepository.deleteById(benificiereId);
+    public void deleteBeneficiaire(Integer id) {
+        beneficiaireRepository.deleteById(id);
     }
-
     public Beneficiaire getBeneficiaireById(Integer id) {
         return beneficiaireRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
-
-
-
 }

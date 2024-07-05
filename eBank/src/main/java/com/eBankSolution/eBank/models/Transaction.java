@@ -30,6 +30,7 @@ public class Transaction {
     private String description;
     @Column
     private String banque;
+
     @Enumerated(EnumType.STRING)
     @Column(name="type" , nullable = false,length = 225)
     private TypeT type;

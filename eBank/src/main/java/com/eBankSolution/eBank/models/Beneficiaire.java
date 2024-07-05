@@ -23,9 +23,11 @@ public class Beneficiaire {
     private Integer numeroCompte;
     @Column
     private String banque;
+
     @ManyToOne
     @JoinColumn(name="compteId")
     private CompteBancaire compteB;
+
     @OneToMany(mappedBy = "beneficiaire")
     @JsonIgnore
     private List<Transaction> transaction;

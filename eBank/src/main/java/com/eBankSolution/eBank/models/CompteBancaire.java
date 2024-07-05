@@ -1,7 +1,6 @@
 package com.eBankSolution.eBank.models;
 
 import com.eBankSolution.eBank.Enum.TypeC;
-import com.eBankSolution.eBank.Enum.TypeT;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,15 +31,14 @@ public class CompteBancaire {
     private Double solde;
 
     @Column
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
-    private LocalDateTime dateCreation;
+    private Date dateCreation;
     @Column
     private Boolean accountClossed = false;
     @Column
     private String RaisonClosing;
 
     @Column
-    private Integer numeroCompte;
+    private String numeroCompte;
 
     @ManyToOne
     @JoinColumn(name = "userId")
@@ -52,9 +50,11 @@ public class CompteBancaire {
 
     @OneToMany(mappedBy = "compteB")
     @JsonIgnore
-    private List<carteBancaire> carteBancaire;
+    private List<CarteBancaire> carteBancaires = new ArrayList<>();
 
-    @OneToMany(mappedBy = "compteB" )
+    @OneToMany(mappedBy = "compteB",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Transaction> Transaction ;
+
+
 }

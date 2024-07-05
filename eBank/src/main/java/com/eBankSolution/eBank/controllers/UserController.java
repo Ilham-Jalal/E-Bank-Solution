@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -20,6 +21,11 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers(){
         List<User> users =userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<User>> getUserById(@PathVariable Long id) {
+        Optional<User> user = Optional.ofNullable(userService.getUserById(id));
+        return ResponseEntity.ok(user);
     }
     @PostMapping("/save")
     public User saveUser(@RequestBody User user){
