@@ -31,6 +31,9 @@ public class CarteBancaire {
     @Column(name="status", nullable = false, length = 250)
     private Status status;
 
+    @Column
+    private String raisonBlocage;
+
     @ManyToOne
     @JoinColumn(name= "compteId")
     private CompteBancaire compteB;
