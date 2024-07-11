@@ -15,6 +15,11 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
+    @GetMapping("/all/{compteId}")
+    public List<Transaction> getTransactions(@PathVariable Long compteId){
+        return transactionService.getAccountTransactions(compteId);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<Transaction>> getAllTransactions() {
         List<Transaction> transactions = transactionService.getAllTransactions();
@@ -38,8 +43,8 @@ public class TransactionController {
     }
 
     @PostMapping("/internal-transfer")
-    public ResponseEntity<String> internalTransfer(@RequestParam Integer fromAccountId, @RequestParam Integer toAccountId, @RequestParam Double amount, @RequestParam String description) {
-        transactionService.internalTransfer(fromAccountId, toAccountId, amount, description);
+    public ResponseEntity<String> internalTransfer(@RequestParam Integer fromAccountId, @RequestParam String numeroCompte, @RequestParam Double amount, @RequestParam String description) {
+        transactionService.internalTransfer(fromAccountId, numeroCompte, amount, description);
         return ResponseEntity.ok("Internal transfer successful");
     }
 

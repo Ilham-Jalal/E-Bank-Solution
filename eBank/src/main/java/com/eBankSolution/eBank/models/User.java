@@ -1,13 +1,10 @@
 package com.eBankSolution.eBank.models;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,26 +16,27 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
-    @Column
-    private String userName;
-    @Column
-    private String userPrenom;
-    @Column
-    private String userEmail;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<CompteBancaire> compteBancaire;
 
-    public User(Integer userId, String userName, String userPrenom, String userEmail) {
+
+    public User(Integer userId, String username, String email) {
         this.userId = userId;
-        this.userName = userName;
-        this.userPrenom = userPrenom;
-        this.userEmail = userEmail;
+        this.username = username;
+        this.email = email;
     }
 
-    //    @ManyToMany
-    //@JoinTable(
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "transaction_id"))
-//    private List<Transaction> transaction;
+
+
 }

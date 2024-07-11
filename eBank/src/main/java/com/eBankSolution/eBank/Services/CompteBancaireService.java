@@ -37,17 +37,20 @@ public class CompteBancaireService {
     public List<CompteBancaire> getAllAccount() {
         return compteBancaireRepository.findByUserUserId();
     }
-    public CompteBancaire saveAccount(CompteBancaire compteBancaire){
+    public CompteBancaire saveAccount(CompteBancaire compteBancaire) {
         CompteBancaire compte1 = compteBancaireRepository.save(compteBancaire);
         CarteBancaire carteBancaire = carteBancaireService.ajouterCarte(compte1);
-        compteBancaire.getCarteBancaires().add(carteBancaire);
+        if (carteBancaire != null) {
+            compteBancaire.getCarteBancaires().add(carteBancaire);
+            carteBancaire.setDateExpiration(generateDateCreation());
+        }
         compteBancaire.setNumeroCompte(generateAccountNumber());
-        carteBancaire.setDateExpiration(generateDateCreation());
         return compteBancaireRepository.save(compteBancaire);
     }
 
 
-    private String generateAccountNumber() {
+
+    public String generateAccountNumber() {
         Random random = new Random();
         StringBuilder AccountNumber = new StringBuilder();
         for (int i = 0; i < 10; i++) {
@@ -58,19 +61,7 @@ public class CompteBancaireService {
     private java.sql.Date generateDateCreation() {
         return new Date(System.currentTimeMillis() + (5L * 365 * 24 * 60 * 60 * 1000));
     }
-//    public void closeAccount(Integer id, String RaisonClosing) {
-//        CompteBancaire compteBancaire = compteBancaireRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
-//
-//        if (compteBancaire.getSolde() != 0) {
-//            throw new IllegalStateException("Account balance must be zero before closing.");
-//        }
-//
-//        compteBancaire.setAccountClossed(true);
-//        compteBancaire.setRaisonClosing(RaisonClosing);
-//
-//        compteBancaireRepository.save(compteBancaire);
-//    }
+
 
 
     public void closeAccount(Integer id, String reason) {
@@ -79,7 +70,7 @@ public class CompteBancaireService {
             CompteBancaire compteBancaire = optionalCompteBancaire.get();
             compteBancaire.setAccountClossed(true);
             compteBancaire.setRaisonClosing(reason);
-            saveAccount(compteBancaire);  // Assuming saveAccount method persists the entity.
+            saveAccount(compteBancaire);
         } else {
             throw new IllegalArgumentException("Account not found");
         }

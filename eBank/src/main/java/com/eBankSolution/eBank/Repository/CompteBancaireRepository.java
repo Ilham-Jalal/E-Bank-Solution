@@ -10,4 +10,9 @@ import java.util.List;
 public interface CompteBancaireRepository extends JpaRepository<CompteBancaire,Integer> {
     @Query(value = "SELECT * from compte_bancaire where user_id=1",nativeQuery = true)
     List<CompteBancaire> findByUserUserId();
+
+    @Query(value = "SELECT * from compte_bancaire where numero_compte=?",nativeQuery = true)
+    CompteBancaire findCompteBancaireBynumeroCompte(String numeroCompte);
+    @Query(value = "delete * from compte_bancaire where user_id=? ", nativeQuery = true)
+    void deleteByUserUserId(Long compteId);
 }
