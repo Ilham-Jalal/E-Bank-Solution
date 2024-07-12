@@ -3,6 +3,7 @@ package com.eBankSolution.eBank.Services;
 import com.eBankSolution.eBank.Repository.CarteBancaireRepository;
 import com.eBankSolution.eBank.Repository.CompteBancaireRepository;
 import com.eBankSolution.eBank.Repository.TransactionRepository;
+import com.eBankSolution.eBank.Repository.UserRepository;
 import com.eBankSolution.eBank.models.CarteBancaire;
 import com.eBankSolution.eBank.models.CompteBancaire;
 import com.eBankSolution.eBank.models.User;
@@ -28,9 +29,14 @@ public class CompteBancaireService {
     private TransactionRepository transactionRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private CarteBancaireService carteBancaireService;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private CarteBancaireRepository carteBancaireRepository;
 
@@ -38,7 +44,8 @@ public class CompteBancaireService {
         return compteBancaireRepository.findByUserUserId(userId);
     }
 
-    public CompteBancaire saveAccount(CompteBancaire compteBancaire) {
+    public CompteBancaire saveAccount(Long userId, CompteBancaire compteBancaire) {
+        User user = userRepository.findById(userId).get();
         CompteBancaire compte1 = compteBancaireRepository.save(compteBancaire);
         CarteBancaire carteBancaire = carteBancaireService.ajouterCarte(compte1);
         if (carteBancaire != null) {
@@ -46,10 +53,26 @@ public class CompteBancaireService {
             carteBancaire.setDateExpiration(generateDateCreation());
         }
         compteBancaire.setNumeroCompte(generateAccountNumber());
+        compteBancaire.setUser(user);
         return compteBancaireRepository.save(compteBancaire);
     }
 
-
+    public CompteBancaire updateAccount(Integer id, CompteBancaire compteBancaire) {
+        Optional<CompteBancaire> existingCompte = compteBancaireRepository.findById(id);
+        if (existingCompte.isPresent()) {
+            CompteBancaire updatedCompte = existingCompte.get();
+            updatedCompte.setType(compteBancaire.getType());
+            updatedCompte.setSolde(compteBancaire.getSolde());
+            updatedCompte.setDateCreation(compteBancaire.getDateCreation());
+            updatedCompte.setAccountClossed(compteBancaire.getAccountClossed());
+            updatedCompte.setRaisonClosing(compteBancaire.getRaisonClosing());
+            updatedCompte.setNumeroCompte(compteBancaire.getNumeroCompte());
+            // تحديث باقي الخصائص ديال الحساب حسب الحاجة
+            return compteBancaireRepository.save(updatedCompte);
+        } else {
+            throw new RuntimeException("الحساب البنكي غير موجود");
+        }
+    }
 
 
     public String generateAccountNumber() {
@@ -64,15 +87,13 @@ public class CompteBancaireService {
         return new Date(System.currentTimeMillis() + (5L * 365 * 24 * 60 * 60 * 1000));
     }
 
-
-
     public void closeAccount(Integer id, String reason) {
         Optional<CompteBancaire> optionalCompteBancaire = getCompteById(id);
         if (optionalCompteBancaire.isPresent()) {
             CompteBancaire compteBancaire = optionalCompteBancaire.get();
             compteBancaire.setAccountClossed(true);
             compteBancaire.setRaisonClosing(reason);
-            saveAccount(compteBancaire);
+            compteBancaireRepository.save(compteBancaire);
         } else {
             throw new IllegalArgumentException("Account not found");
         }

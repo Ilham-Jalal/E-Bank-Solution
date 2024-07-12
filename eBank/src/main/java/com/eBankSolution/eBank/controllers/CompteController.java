@@ -28,9 +28,9 @@ public class CompteController {
         return ResponseEntity.ok(compteBancaire);
     }
 
-    @PostMapping("/save")
-    public CompteBancaire saveAccount(@RequestBody CompteBancaire compteBancaire){
-        return compteBancaireService.saveAccount(compteBancaire);
+    @PostMapping("/save/{userId}")
+    public CompteBancaire saveAccount(@PathVariable Long userId, @RequestBody CompteBancaire compteBancaire){
+        return compteBancaireService.saveAccount(userId, compteBancaire);
     }
 
 
@@ -43,9 +43,16 @@ public class CompteController {
             return ResponseEntity.badRequest().build();
         }
     }
+
     @PutMapping("/update/{id}")
-    public CompteBancaire updateCompte( @RequestBody CompteBancaire compteBancaire) {
-        return compteBancaireService.saveAccount(compteBancaire);
+    public ResponseEntity<CompteBancaire> updateCompte(@PathVariable Integer id, @RequestBody CompteBancaire compteBancaire) {
+        try {
+            CompteBancaire updatedCompte = compteBancaireService.updateAccount(id, compteBancaire);
+            return ResponseEntity.ok(updatedCompte);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
+
 
 }
