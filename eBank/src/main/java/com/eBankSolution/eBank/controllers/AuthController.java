@@ -55,6 +55,7 @@ import com.eBankSolution.eBank.Services.UserService;
 import com.eBankSolution.eBank.config.JwtHelper;
 import com.eBankSolution.eBank.controllers.dto.LoginRequest;
 import com.eBankSolution.eBank.controllers.dto.SignupRequest;
+import com.eBankSolution.eBank.controllers.dto.login;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -90,12 +91,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@Valid @RequestBody login loginRequest) {
+        System.out.println("/////////////////");
+        System.out.println("////////////"+loginRequest.password()+"//////////"+loginRequest.username());
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
 
         if (authentication.isAuthenticated()) {
-            String token = JwtHelper.generateToken(loginRequest.getUsername());
+            String token = JwtHelper.generateToken(loginRequest.username());
             return ResponseEntity.ok(token);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials");

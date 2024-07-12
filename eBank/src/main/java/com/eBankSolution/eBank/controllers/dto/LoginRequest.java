@@ -1,7 +1,5 @@
 package com.eBankSolution.eBank.controllers.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.*;
 
 @NoArgsConstructor
@@ -9,13 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@Entity
-public class LoginRequest{
-        @Id
-        private Long id;
-        String username;
-        String password;
-
-
-
+public class LoginRequest {
+        private String username;
+        private String password;
 }
