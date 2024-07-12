@@ -33,7 +33,7 @@ public class SecurityConfig {
         System.out.println("filtercjain///////////");
 
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(expressionInterceptUrlRegistry ->
                         expressionInterceptUrlRegistry
                                 .requestMatchers("/api/auth/signup").permitAll()
@@ -41,7 +41,7 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
 
-                .formLogin(formLogin ->formLogin.disable());// Désactiver le formulaire de login par défaut de Spring Security
+                .formLogin(AbstractHttpConfigurer::disable);// Désactiver le formulaire de login par défaut de Spring Security
         http.addFilterBefore(new JwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

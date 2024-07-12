@@ -34,9 +34,10 @@ public class CompteBancaireService {
     @Autowired
     private CarteBancaireRepository carteBancaireRepository;
 
-    public List<CompteBancaire> getAllAccount() {
-        return compteBancaireRepository.findByUserUserId();
+    public List<CompteBancaire> getAllAccount(Integer userId) {
+        return compteBancaireRepository.findByUserUserId(userId);
     }
+
     public CompteBancaire saveAccount(CompteBancaire compteBancaire) {
         CompteBancaire compte1 = compteBancaireRepository.save(compteBancaire);
         CarteBancaire carteBancaire = carteBancaireService.ajouterCarte(compte1);
@@ -47,6 +48,7 @@ public class CompteBancaireService {
         compteBancaire.setNumeroCompte(generateAccountNumber());
         return compteBancaireRepository.save(compteBancaire);
     }
+
 
 
 

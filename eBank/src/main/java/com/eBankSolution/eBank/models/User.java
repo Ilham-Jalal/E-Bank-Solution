@@ -40,7 +40,6 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -55,12 +54,10 @@ public class User implements UserDetails {
     public boolean isAccountNonLocked() {
         return UserDetails.super.isAccountNonLocked();
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return UserDetails.super.isCredentialsNonExpired();
     }
-
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();

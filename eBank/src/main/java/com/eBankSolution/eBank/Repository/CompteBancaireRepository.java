@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface CompteBancaireRepository extends JpaRepository<CompteBancaire,Integer> {
-    @Query(value = "SELECT * from compte_bancaire where user_id=1",nativeQuery = true)
-    List<CompteBancaire> findByUserUserId();
+    @Query(value = "SELECT * from compte_bancaire where user_id=?", nativeQuery = true)
+    List<CompteBancaire> findByUserUserId(Integer userId);
+
 
     @Query(value = "SELECT * from compte_bancaire where numero_compte=?",nativeQuery = true)
     CompteBancaire findCompteBancaireBynumeroCompte(String numeroCompte);

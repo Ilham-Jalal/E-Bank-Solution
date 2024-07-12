@@ -16,9 +16,9 @@ public class CompteController {
     @Autowired
     private CompteBancaireService compteBancaireService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<CompteBancaire>> getAllAccount(){
-        List<CompteBancaire> comptes =compteBancaireService.getAllAccount();
+    @GetMapping("/all/{userId}")
+    public ResponseEntity<List<CompteBancaire>> getAllAccount(@PathVariable Integer userId){
+        List<CompteBancaire> comptes = compteBancaireService.getAllAccount(userId);
         return ResponseEntity.ok(comptes);
     }
 
@@ -27,10 +27,12 @@ public class CompteController {
         Optional<CompteBancaire> compteBancaire = compteBancaireService.getCompteById(id);
         return ResponseEntity.ok(compteBancaire);
     }
+
     @PostMapping("/save")
     public CompteBancaire saveAccount(@RequestBody CompteBancaire compteBancaire){
         return compteBancaireService.saveAccount(compteBancaire);
     }
+
 
     @PutMapping("/close/{id}")
     public ResponseEntity<Void> closeAccount(@PathVariable Integer id, @RequestBody String reason) {
