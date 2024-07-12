@@ -40,7 +40,9 @@ public class SecurityConfig {
                                 .requestMatchers("/api/auth/login").permitAll() // Permettre l'accès à l'endpoint /login
                                 .anyRequest().authenticated()
                 )
+
                 .formLogin(formLogin ->formLogin.disable());// Désactiver le formulaire de login par défaut de Spring Security
+        http.addFilterBefore(new JwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
