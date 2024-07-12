@@ -48,18 +48,4 @@ public class UserService {
         userRepository.save(User.builder().username(signupRequest.username()).password(hashedPassword).email(signupRequest.email()).build());
     }
 
-
-
-
-//    public JwtHelper (Authentication request) {
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(request.ge())
-//        );
-//        if (authentication.isAuthenticated()) {
-//            return JwtResponseDTO.builder().accessToken(jwtService.generateToken(authRequestDTO.getName())).build();
-//        } else {
-//            throw new UsernameNotFoundException("Invalid user request.");
-//        }
-//    }
-
 }
